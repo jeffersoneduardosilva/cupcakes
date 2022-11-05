@@ -1,16 +1,10 @@
 package com.online.cupcakes.cupcakes.controller;
 
-//import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-//import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
-//import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.hateoas.CollectionModel;
-//import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,33 +16,33 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.online.cupcakes.cupcakes.entity.Item;
-import com.online.cupcakes.cupcakes.repository.ItemRepository;
+import com.online.cupcakes.cupcakes.service.ItemService;
 
 @RestController
 @RequestMapping("/controller/item")
 public class ItemController {
-
+	
 	@Autowired
-	private ItemRepository itemRepository;
+	private ItemService itemService;
 	
 	@CrossOrigin(origins = "*")
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<Item>> all() {
-    	List<Item> findAll = itemRepository.findAll();
+    	List<Item> findAll = itemService.all();
     	return ResponseEntity.ok(findAll);
     }
 	
 	@CrossOrigin(origins = "*")
 	@GetMapping("/itens/{id}")
 	ResponseEntity<Optional<Item>> one(@PathVariable Long id) {
-		Optional<Item> item = itemRepository.findById(id);
+		Optional<Item> item = itemService.one(id);
 		return ResponseEntity.ok(item);
 	}
     
 	@CrossOrigin(origins = "*")
 	@PostMapping
 	ResponseEntity<?> newItem(@RequestBody Item item) {
-		Item itemSalvo = itemRepository.save(item);
+		Item itemSalvo = itemService.newItem(item);
 		return ResponseEntity.created(URI.create("/controller/item")).body(itemSalvo);
 	}
 	
