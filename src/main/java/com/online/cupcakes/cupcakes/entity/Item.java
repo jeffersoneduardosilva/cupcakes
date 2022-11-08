@@ -10,18 +10,19 @@ public class Item {
 
 	private @Id @GeneratedValue Long id;
 	
-	@Column(name="descricao")
+	@Column(name="descricao",nullable = false)
 	private String descricao;
 	
-	@Column(name="detalhes")
+	@Column(name="detalhes", nullable = false)
 	private String detalhes;
 	
-	@Column(name="qtd_estoque")
+	@Column(name="qtd_estoque", nullable = false)
 	private Long quantidadeEstoque;
 	
-	@Column(name="ativo")
+	@Column(name="ativo", nullable = true)
 	private Boolean ativo;
 	
+	@Column(nullable = false)
 	private Double preco;
 
 	public Long getId() {
