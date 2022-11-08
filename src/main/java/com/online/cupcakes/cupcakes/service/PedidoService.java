@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.online.cupcakes.cupcakes.controller.request.PedidoRequest;
 import com.online.cupcakes.cupcakes.converter.PedidoConverter;
 import com.online.cupcakes.cupcakes.entity.Cliente;
+import com.online.cupcakes.cupcakes.entity.Item;
 import com.online.cupcakes.cupcakes.entity.Pedido;
 import com.online.cupcakes.cupcakes.entity.VendasSumario;
 import com.online.cupcakes.cupcakes.repository.ClienteRepository;
+import com.online.cupcakes.cupcakes.repository.ItemRepository;
 import com.online.cupcakes.cupcakes.repository.PedidoRepository;
 
 @Service
@@ -22,6 +24,9 @@ public class PedidoService {
 	
 	@Autowired
 	private ClienteRepository clienteRepository;
+	
+	@Autowired
+	private ItemRepository itemRepository;
 	
 	@Autowired
 	private VendasSumarioService vendasSumarioService;
@@ -63,7 +68,15 @@ public class PedidoService {
 		
 		vendasSumarioService.updateVendasSumario(vendasSumario);
 		
+		//retira itens vendidos do estoque
+		converterToEntity.getItens().forEach(item -> decreaseTotalitens(item));
+		
 		return pedidoRepository.save(converterToEntity);
+	}
+	
+	private void decreaseTotalitens(Item item) {
+		item.setQuantidadeEstoque(item.getQuantidadeEstoque() - 1);
+		itemRepository.save(item);
 	}
 	
 }

@@ -20,6 +20,10 @@ public class ItemService {
 	private VendasSumarioService vendasSumarioService; 
 	
 	public List<Item> all() {
+    	return itemRepository.findAllComEstoque();
+    }
+	
+	public List<Item> allCadastrados() {
     	return itemRepository.findAll();
     }
 	

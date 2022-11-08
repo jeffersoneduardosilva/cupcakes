@@ -27,8 +27,15 @@ public class ItemController {
 	
 	@CrossOrigin(origins = "*")
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<Item>> all() {
+    public ResponseEntity<List<Item>> allAtivos() {
     	List<Item> findAll = itemService.all();
+    	return ResponseEntity.ok(findAll);
+    }
+	
+	@CrossOrigin(origins = "*")
+    @RequestMapping(method = RequestMethod.GET, path = "/cadastrados")
+    public ResponseEntity<List<Item>> allCadastrados() {
+    	List<Item> findAll = itemService.allCadastrados();
     	return ResponseEntity.ok(findAll);
     }
 	
